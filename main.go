@@ -34,7 +34,12 @@ func layout(g *gocui.Gui) error {
 		v.SelFgColor = gocui.ColorMagenta
 		v.Wrap = false
 		renderList(v, maxY-2) // Adjust for title bar
-		v.SetCursor(0, cursorPosition())
+
+		err := v.SetCursor(0, cursorPosition())
+
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -79,8 +84,19 @@ func moveCursor(g *gocui.Gui, dy int) error {
 	}
 
 	renderList(v, maxVisible)
-	v.SetCursor(0, cursorPosition())
-	v.SetOrigin(0, 0)
+
+	err = v.SetCursor(0, cursorPosition())
+
+	if err != nil {
+		return err
+	}
+
+	err = v.SetOrigin(0, 0)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -150,16 +166,12 @@ func keybindings(g *gocui.Gui) error {
 	if err := g.SetKeybinding("", gocui.KeyArrowDown, gocui.ModNone, moveDown); err != nil {
 		return err
 	}
-
 	if err := g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); err != nil {
 		return err
 	}
-
-	// MAYBE 'c'
 	if err := g.SetKeybinding("", 'c', gocui.ModNone, copyToClipboard); err != nil {
 		return err
 	}
-	// MAYBE 'W'
 	if err := g.SetKeybinding("", 'W', gocui.ModNone, openInBrowserHandler); err != nil {
 		return err
 	}
