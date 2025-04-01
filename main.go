@@ -153,6 +153,10 @@ func moveDown(g *gocui.Gui, v *gocui.View) error {
 	return moveCursor(g, 1)
 }
 
+func upgradeKeyBindings(g *gocui.Gui, v *gocui.View) error {
+	return upgrade()
+}
+
 func keybindings(g *gocui.Gui) error {
 	if err := g.SetKeybinding("", 'w', gocui.ModNone, moveUp); err != nil {
 		return err
@@ -173,6 +177,9 @@ func keybindings(g *gocui.Gui) error {
 		return err
 	}
 	if err := g.SetKeybinding("", 'W', gocui.ModNone, openInBrowserHandler); err != nil {
+		return err
+	}
+	if err := g.SetKeybinding("", 'U', gocui.ModNone, upgradeKeyBindings); err != nil {
 		return err
 	}
 	return nil
@@ -214,7 +221,7 @@ func getLinearData() {
 	var first int32 = 100
 
 	// name := ""
-	stateName := "Active"
+	stateName := ""
 	teamName := ""
 
 	filter := linear.IssueFilter{
@@ -243,7 +250,7 @@ func getLinearData() {
 	)
 
 	// res, err := linear.FetchTeams(
-	// 	linear.DefaultClient(),
+	// 	linear.DefaultClient(),ww
 	// 	context.Background(),
 	// )
 
