@@ -1,6 +1,6 @@
 module github.com/alrudolph/tasks
 
-go 1.22.0
+go 1.22
 
 require (
 	git.sr.ht/~emersion/gqlclient v0.0.0-20230820050442-8873fe0204b9
